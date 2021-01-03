@@ -8,7 +8,7 @@ import {
 import { Autocomplete } from "@material-ui/lab";
 import { useState } from "react";
 import { Ingredient } from "../lib/ingredients";
-import { asCups, UNITS } from "../lib/amount";
+import { asCups, grams, UNITS } from "../lib/amount";
 
 export interface CalculatorProps {
   ingredients: Ingredient[];
@@ -23,9 +23,8 @@ export default function Calculator(props: CalculatorProps) {
   const [ingredient, setIngredient] = useState<Ingredient>();
   let calculation = "";
   if (amountStr != "" && ingredient != null) {
-    const amount = { value: Number(amountStr), unit };
-    const numGrams = ingredient.cup_weight * asCups(amount);
-    calculation = `= ${numGrams | 0} grams`;
+    const amount = { value: Number(amountStr), unit, ingredient };
+    calculation = `= ${grams(amount)} grams`;
   }
   return (
     <div>
