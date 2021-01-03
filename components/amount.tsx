@@ -1,4 +1,11 @@
-import { ChangeEvent, useState } from "react";
+import {
+  Button,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  TextField,
+} from "@material-ui/core";
+import { useState } from "react";
 import { Ingredient } from "../lib/ingredients";
 
 export interface AmountProps {
@@ -6,9 +13,10 @@ export interface AmountProps {
 }
 
 export default function Amount(props: AmountProps) {
-  const [amount, setAmount] = useState(0);
+  const [amountStr, setAmount] = useState("");
+  const amount = Number(amountStr);
   const addAmount = (value: number) => {
-    setAmount(value + amount);
+    setAmount(`${value + amount}`);
   };
   const [unit, setUnit] = useState("cups");
   const ingredient = props.ingredients[0];
@@ -20,26 +28,41 @@ export default function Amount(props: AmountProps) {
         <AddAmountButton addAmount={addAmount} num={1} denom={2} />
         <AddAmountButton addAmount={addAmount} num={1} denom={3} />
         <AddAmountButton addAmount={addAmount} num={1} denom={4} />
+        <Button color="secondary" onClick={() => setAmount("")}>
+          Clear
+        </Button>
       </div>
       <div>
-        <input
-          type="text"
+        <TextField
           id="amount"
-          name="amount"
-          value={amount}
-          onChange={(e) => setAmount(Number(e.target.value))}
+          label="Amount"
+          variant="outlined"
+          inputProps={{ style: { fontSize: "2em" } }}
+          fullWidth={true}
+          value={amountStr}
+          onChange={(e) => setAmount(e.target.value)}
         />
       </div>
       <UnitSelect unit={unit} setUnit={setUnit} />
       <div>
-        <input
-          type="text"
+        <TextField
           id="ingredient"
-          name="ingredient"
+          label="Ingredient"
+          variant="outlined"
+          inputProps={{ style: { fontSize: "2em" } }}
+          fullWidth={true}
           value={ingredient.name}
         />
       </div>
-      <div>{numGrams} grams</div>
+      <div
+        className="Calculation"
+        style={{
+          textAlign: "center",
+          fontSize: "4em",
+        }}
+      >
+        = {numGrams | 0} grams
+      </div>
     </div>
   );
 }
@@ -60,23 +83,25 @@ type StringF = (s: string) => void;
 const UNITS = ["cups", "tbsp", "tsp"];
 
 function UnitSelect({ unit, setUnit }: { unit: string; setUnit: StringF }) {
-  const changeUnit = (e: ChangeEvent<HTMLInputElement>) => {
-    setUnit(e.target.value);
-  };
-  const inputs = UNITS.map((inputUnit) => (
-    <label>
-      <input
-        type="radio"
-        id={inputUnit}
-        name="u"
+  const inputs = UNITS.map((inputUnit) => {
+    const changeUnit = () => {
+      setUnit(inputUnit);
+    };
+    return (
+      <FormControlLabel
         value={inputUnit}
+        control={<Radio color="primary" />}
+        label={inputUnit}
         onChange={changeUnit}
         checked={inputUnit == unit}
-      ></input>
-      {inputUnit}
-    </label>
-  ));
-  return <div>{inputs}</div>;
+      />
+    );
+  });
+  return (
+    <RadioGroup row value={unit}>
+      {inputs}
+    </RadioGroup>
+  );
 }
 
 interface AddAmountProps {
@@ -95,5 +120,5 @@ function AddAmountButton(props: AddAmountProps) {
   const addAmount = (value: number) => () => {
     props.addAmount(value);
   };
-  return <button onClick={addAmount(value)}>{label}</button>;
+  return <Button onClick={addAmount(value)}>{label}</Button>;
 }
