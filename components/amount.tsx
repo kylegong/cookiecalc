@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { Ingredient } from "../lib/ingredients";
 
 export interface AmountProps {
@@ -59,7 +59,7 @@ function unitsPerCup(unit: string) {
 type StringF = (s: string) => void;
 
 function UnitSelect({ unit, setUnit }: { unit: string; setUnit: StringF }) {
-  const changeUnit = (e: FormEvent<HTMLDivElement>) => {
+  const changeUnit = (e: ChangeEvent<HTMLInputElement>) => {
     setUnit(e.target.value);
   };
   return (
