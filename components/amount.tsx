@@ -53,43 +53,30 @@ function unitsPerCup(unit: string) {
     case "tsp":
       return 48;
   }
-  unitsPerCup;
 }
 
 type StringF = (s: string) => void;
+
+const UNITS = ["cups", "tbsp", "tsp"];
 
 function UnitSelect({ unit, setUnit }: { unit: string; setUnit: StringF }) {
   const changeUnit = (e: ChangeEvent<HTMLInputElement>) => {
     setUnit(e.target.value);
   };
-  return (
-    <div onChange={changeUnit}>
+  const inputs = UNITS.map((inputUnit) => (
+    <label>
       <input
         type="radio"
-        id="cups"
-        name="unit"
-        value="cups"
-        checked={"cups" == unit}
-      />
-      <label htmlFor="cups">cups</label>
-      <input
-        type="radio"
-        id="tbsp"
-        name="unit"
-        value="tbsp"
-        checked={"tbsp" == unit}
-      />
-      <label htmlFor="tbsp">tbsp</label>
-      <input
-        type="radio"
-        id="tsp"
-        name="unit"
-        value="tsp"
-        checked={"tsp" == unit}
-      />
-      <label htmlFor="tsp">tsp</label>
-    </div>
-  );
+        id={inputUnit}
+        name="u"
+        value={inputUnit}
+        onChange={changeUnit}
+        checked={inputUnit == unit}
+      ></input>
+      {inputUnit}
+    </label>
+  ));
+  return <div>{inputs}</div>;
 }
 
 interface AddAmountProps {
