@@ -5,6 +5,7 @@ import {
   RadioGroup,
   TextField,
 } from "@material-ui/core";
+import { Autocomplete } from "@material-ui/lab";
 import { useState } from "react";
 import { Ingredient } from "../lib/ingredients";
 
@@ -19,8 +20,12 @@ export default function Amount(props: AmountProps) {
     setAmount(`${value + amount}`);
   };
   const [unit, setUnit] = useState("cups");
-  const ingredient = props.ingredients[0];
-  const numGrams = (ingredient.cup_weight * amount) / unitsPerCup(unit);
+  const [ingredient, setIngredient] = useState<Ingredient>();
+  let calculation = "";
+  if (amountStr != "" && ingredient != null) {
+    const numGrams = (ingredient.cup_weight * amount) / unitsPerCup(unit);
+    calculation = `= ${numGrams | 0} grams`;
+  }
   return (
     <div>
       <div>
@@ -44,16 +49,11 @@ export default function Amount(props: AmountProps) {
         />
       </div>
       <UnitSelect unit={unit} setUnit={setUnit} />
-      <div>
-        <TextField
-          id="ingredient"
-          label="Ingredient"
-          variant="outlined"
-          inputProps={{ style: { fontSize: "2em" } }}
-          fullWidth={true}
-          value={ingredient.name}
-        />
-      </div>
+      <IngredientSelect
+        ingredients={props.ingredients}
+        ingredient={ingredient}
+        setIngredient={setIngredient}
+      />
       <div
         className="Calculation"
         style={{
@@ -61,7 +61,7 @@ export default function Amount(props: AmountProps) {
           fontSize: "4em",
         }}
       >
-        = {numGrams | 0} grams
+        {calculation}
       </div>
     </div>
   );
@@ -121,4 +121,32 @@ function AddAmountButton(props: AddAmountProps) {
     props.addAmount(value);
   };
   return <Button onClick={addAmount(value)}>{label}</Button>;
+}
+
+interface IngredientSelectProps {
+  ingredients: Ingredient[];
+  ingredient: Ingredient;
+  setIngredient(ing: Ingredient): void;
+}
+
+function IngredientSelect(props: IngredientSelectProps) {
+  return (
+    <div>
+      <Autocomplete
+        id="ingredient"
+        autoHighlight
+        options={props.ingredients}
+        getOptionLabel={(opt) => opt.name}
+        onChange={(e, t: Ingredient) => props.setIngredient(t)}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label="Ingredient"
+            variant="outlined"
+            margin="normal"
+          />
+        )}
+      />
+    </div>
+  );
 }
