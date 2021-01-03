@@ -1,5 +1,5 @@
 import Head from "next/head";
-import Amount from "../components/amount";
+import Calculator from "../components/calculator";
 import { INGREDIENTS } from "../lib/ingredients";
 import styles from "../styles/Home.module.css";
 
@@ -17,7 +17,7 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1>Ingredient Weight Calculator</h1>
-        <Amount ingredients={INGREDIENTS} />
+        <Calculator ingredients={INGREDIENTS} />
       </main>
     </div>
   );

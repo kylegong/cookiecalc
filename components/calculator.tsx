@@ -8,22 +8,23 @@ import {
 import { Autocomplete } from "@material-ui/lab";
 import { useState } from "react";
 import { Ingredient } from "../lib/ingredients";
+import { asCups, UNITS } from "../lib/amount";
 
-export interface AmountProps {
+export interface CalculatorProps {
   ingredients: Ingredient[];
 }
 
-export default function Amount(props: AmountProps) {
+export default function Calculator(props: CalculatorProps) {
   const [amountStr, setAmount] = useState("");
-  const amount = Number(amountStr);
   const addAmount = (value: number) => {
-    setAmount(`${value + amount}`);
+    setAmount(`${value + Number(amountStr)}`);
   };
   const [unit, setUnit] = useState("cups");
   const [ingredient, setIngredient] = useState<Ingredient>();
   let calculation = "";
   if (amountStr != "" && ingredient != null) {
-    const numGrams = (ingredient.cup_weight * amount) / unitsPerCup(unit);
+    const amount = { value: Number(amountStr), unit };
+    const numGrams = ingredient.cup_weight * asCups(amount);
     calculation = `= ${numGrams | 0} grams`;
   }
   return (
@@ -67,20 +68,7 @@ export default function Amount(props: AmountProps) {
   );
 }
 
-function unitsPerCup(unit: string) {
-  switch (unit) {
-    case "cups":
-      return 1;
-    case "tbsp":
-      return 16;
-    case "tsp":
-      return 48;
-  }
-}
-
 type StringF = (s: string) => void;
-
-const UNITS = ["cups", "tbsp", "tsp"];
 
 function UnitSelect({ unit, setUnit }: { unit: string; setUnit: StringF }) {
   const inputs = UNITS.map((inputUnit) => {
