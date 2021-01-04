@@ -26,3 +26,10 @@ export function asCups(amount: Amount) {
 export function grams(amount: Amount) {
   return amount.ingredient.cup_weight * asCups(amount);
 }
+
+export function unitName(amount: Amount) {
+  if (amount.value === 1 && amount.unit === "cups") {
+    return "cup";
+  }
+  return amount.unit;
+}

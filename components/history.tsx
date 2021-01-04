@@ -1,6 +1,6 @@
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { Amount, grams } from "../lib/amount";
+import { Amount, grams, unitName } from "../lib/amount";
 
 export interface HistoryProps {
   amounts: Amount[];
@@ -21,30 +21,49 @@ function HistoryRow(amount: Amount, delAmount: () => void) {
       style={{
         display: "flex",
         justifyContent: "space-between",
+        height: "2.5rem",
         alignItems: "center",
       }}
     >
-      <div style={{ width: "10%", textAlign: "right" }}>
-        {+amount.value.toFixed(3)}
+      <div
+        style={{
+          width: "2.5rem",
+          textAlign: "right",
+        }}
+      >
+        {+amount.value.toFixed(2)}
       </div>
-      <div style={{ width: "10%", textAlign: "right" }}>{amount.unit}</div>
+      <div
+        style={{
+          width: "2.8rem",
+          paddingLeft: ".25rem",
+          textAlign: "left",
+        }}
+      >
+        {unitName(amount)}
+      </div>
 
       <div
         style={{
-          width: "65%",
+          width: "70%",
           textAlign: "left",
-          paddingLeft: ".5rem",
+          paddingLeft: ".25rem",
         }}
       >
         {amount.ingredient.name}
       </div>
 
-      <div style={{ width: "10%", textAlign: "right" }}>
+      <div
+        style={{
+          width: "2.5rem",
+          textAlign: "right",
+        }}
+      >
         {grams(amount).toFixed(0)}g
       </div>
 
-      <div style={{ textAlign: "right" }}>
-        <IconButton aria-label="delete" onClick={delAmount}>
+      <div>
+        <IconButton aria-label="delete" size="small" onClick={delAmount}>
           <DeleteIcon fontSize="small" />
         </IconButton>
       </div>
