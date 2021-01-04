@@ -29,7 +29,8 @@ export default function Calculator(props: CalculatorProps) {
     const amount = { value: Number(volStr), unit, ingredient };
     addAmount = () => {
       setAmounts([...amounts, amount]);
-      console.log(amounts);
+      setVol("");
+      setIngredient(undefined);
     };
     calculation = `= ${grams(amount).toFixed(0)} grams`;
   }
@@ -150,6 +151,7 @@ function IngredientSelect(props: IngredientSelectProps) {
     <div>
       <Autocomplete
         id="ingredient"
+        value={props.ingredient}
         autoHighlight
         options={props.ingredients}
         getOptionLabel={(opt) => opt.name}
