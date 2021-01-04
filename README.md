@@ -8,4 +8,4 @@ It uses:
 
 This app is hosted by [Vercel](vercel.com) at:
 
-- https://ingweight.vercel.app
+- https://cookiecalc.vercel.app
