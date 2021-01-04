@@ -1,6 +1,6 @@
 export interface Rational {
-  n: number;
-  d: number;
+  n: number; // numerator
+  d: number; // denominator
 }
 
 export function add(a: Rational, b: Rational): Rational {
@@ -8,6 +8,7 @@ export function add(a: Rational, b: Rational): Rational {
 }
 
 export function reduce(r: Rational): Rational {
+  // See https://en.wikipedia.org/wiki/Euclidean_algorithm
   let [gcd, b] = [r.n, r.d];
   while (b != 0) {
     let t = b;
@@ -21,6 +22,7 @@ export function toNumber(a: Rational): number {
   return a.n / a.d;
 }
 
+/** toString returns a mixed fraction in the form "w r/d" */
 export function toString(a: Rational): string {
   const r = reduce(a);
   const rem = r.n % r.d;
@@ -35,8 +37,9 @@ export function toString(a: Rational): string {
   return frac;
 }
 
+/** parse expects mixed fractions in the form "w r/d", "r/d", or "r" */
 export function parse(s: string): Rational {
-  const re = /^((?<w>\d+) )?(?<r>\d+)\/?(?<d>\d+)?$/;
+  const re = /^((?<w>\d+) )?(?<r>\d+)(\/(?<d>\d+))?$/;
   const match = re.exec(s);
   if (match == null) {
     return { n: 0, d: 1 };
