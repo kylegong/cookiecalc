@@ -71,6 +71,7 @@ export default function Calculator(props: CalculatorProps) {
       </div>
       <UnitSelect unit={unit} setUnit={setUnit} />
       <IngredientSelect
+        key={amounts.length} // Resets this component after ADD.
         ingredients={props.ingredients}
         ingredient={ingredient}
         setIngredient={setIngredient}
@@ -79,7 +80,7 @@ export default function Calculator(props: CalculatorProps) {
         className="Calculation"
         style={{
           textAlign: "center",
-          fontSize: "4em",
+          fontSize: "3em",
         }}
       >
         {calculation}
@@ -153,7 +154,6 @@ function IngredientSelect(props: IngredientSelectProps) {
     <div>
       <Autocomplete
         id="ingredient"
-        value={props.ingredient}
         autoHighlight
         options={props.ingredients}
         getOptionLabel={(opt) => opt.name}
