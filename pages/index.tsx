@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Ingredient Weight Calculator</title>
+        <title>Cookie Calc</title>
         <link rel="icon" href="/favicon.ico" />
         <link
           rel="stylesheet"
@@ -16,7 +16,7 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <h1>Ingredient Weight Calculator</h1>
+        <h1>Cookie Calc</h1>
         <Calculator ingredients={INGREDIENTS} />
       </main>
     </div>
