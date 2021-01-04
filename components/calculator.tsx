@@ -9,6 +9,7 @@ import { Autocomplete } from "@material-ui/lab";
 import { useState } from "react";
 import { Amount, grams, UNITS } from "../lib/amount";
 import { Ingredient } from "../lib/ingredients";
+import * as rational from "../lib/rational";
 import { History } from "./history";
 
 export interface CalculatorProps {
@@ -17,8 +18,9 @@ export interface CalculatorProps {
 
 export default function Calculator(props: CalculatorProps) {
   const [volStr, setVol] = useState("");
-  const addVol = (value: number) => {
-    setVol(`${value + Number(volStr)}`);
+  const addVol = (vol: rational.Rational) => {
+    const prev = rational.parse(volStr);
+    setVol(rational.toString(rational.add(prev, vol)));
   };
   const [unit, setUnit] = useState("cups");
   const [ingredient, setIngredient] = useState<Ingredient>();
@@ -26,7 +28,7 @@ export default function Calculator(props: CalculatorProps) {
   let addAmount = null;
   const [amounts, setAmounts] = useState<Amount[]>([]);
   if (volStr != "" && ingredient != null) {
-    const amount = { value: Number(volStr), unit, ingredient };
+    const amount = { vol: rational.parse(volStr), unit, ingredient };
     addAmount = () => {
       setAmounts([...amounts, amount]);
       setVol("");
@@ -39,13 +41,19 @@ export default function Calculator(props: CalculatorProps) {
     newAmounts.splice(i, 1);
     setAmounts(newAmounts);
   };
+  const buttonVols = [
+    { n: 1, d: 1 },
+    { n: 1, d: 2 },
+    { n: 1, d: 3 },
+    { n: 1, d: 4 },
+  ];
+  const addVolButtons = buttonVols.map((v) => (
+    <AddVolButton key={rational.toString(v)} addVol={addVol} vol={v} />
+  ));
   return (
     <div>
       <div>
-        <AddVolButton addVol={addVol} num={1} />
-        <AddVolButton addVol={addVol} num={1} denom={2} />
-        <AddVolButton addVol={addVol} num={1} denom={3} />
-        <AddVolButton addVol={addVol} num={1} denom={4} />
+        {addVolButtons}
         <Button color="secondary" onClick={() => setVol("")}>
           Clear
         </Button>
@@ -121,23 +129,17 @@ function UnitSelect({
   );
 }
 
-interface AddAmountProps {
-  num: number;
-  denom?: number;
-  addVol(value: number): void;
+interface AddVolProps {
+  vol: rational.Rational;
+  addVol(vol: rational.Rational): void;
 }
 
-function AddVolButton(props: AddAmountProps) {
-  let label = `+ ${props.num}`;
-  let value = props.num;
-  if (props.denom) {
-    label += `/${props.denom}`;
-    value /= props.denom;
-  }
-  const addAmount = (value: number) => () => {
-    props.addVol(value);
+function AddVolButton(props: AddVolProps) {
+  let label = `+ ${rational.toString(props.vol)}`;
+  const addVol = () => {
+    props.addVol(props.vol);
   };
-  return <Button onClick={addAmount(value)}>{label}</Button>;
+  return <Button onClick={addVol}>{label}</Button>;
 }
 
 interface IngredientSelectProps {

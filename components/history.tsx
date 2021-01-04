@@ -1,6 +1,7 @@
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { Amount, grams, unitName } from "../lib/amount";
+import * as rational from "../lib/rational";
 
 export interface HistoryProps {
   amounts: Amount[];
@@ -8,7 +9,6 @@ export interface HistoryProps {
 }
 
 export function History(props: HistoryProps) {
-  console.log(props.amounts);
   const historyItems = props.amounts.map((amount, i) =>
     HistoryRow(amount, () => props.delAmount(i))
   );
@@ -27,11 +27,11 @@ function HistoryRow(amount: Amount, delAmount: () => void) {
     >
       <div
         style={{
-          width: "2.5rem",
+          width: "3.5rem",
           textAlign: "right",
         }}
       >
-        {+amount.value.toFixed(2)}
+        {rational.toString(amount.vol)}
       </div>
       <div
         style={{

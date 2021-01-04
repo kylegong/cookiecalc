@@ -1,4 +1,5 @@
 import { Ingredient } from "./ingredients";
+import * as rational from "./rational";
 
 function unitsPerCup(unit: string) {
   switch (unit) {
@@ -14,13 +15,13 @@ function unitsPerCup(unit: string) {
 export const UNITS = ["cups", "tbsp", "tsp"];
 
 export interface Amount {
-  value: number;
+  vol: rational.Rational;
   unit: string;
   ingredient: Ingredient;
 }
 
 export function asCups(amount: Amount) {
-  return amount.value / unitsPerCup(amount.unit);
+  return rational.toNumber(amount.vol) / unitsPerCup(amount.unit);
 }
 
 export function grams(amount: Amount) {
@@ -28,7 +29,7 @@ export function grams(amount: Amount) {
 }
 
 export function unitName(amount: Amount) {
-  if (amount.value === 1 && amount.unit === "cups") {
+  if (amount.vol === { n: 1, d: 1 } && amount.unit === "cups") {
     return "cup";
   }
   return amount.unit;
