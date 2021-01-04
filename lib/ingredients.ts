@@ -16,6 +16,7 @@ export const INGREDIENTS: Ingredient[] = [
   { name: "flour, cake", cup_weight: 113 },
   { name: "flour, whole wheat", cup_weight: 156 },
   { name: "milk", cup_weight: 245 },
+  { name: "oil, vegetable", cup_weight: 218 },
   { name: "salt, kosher (Diamond Crystal)", cup_weight: 140 },
   { name: "salt, kosher (Morton's)", cup_weight: 225 },
   { name: "salt, table", cup_weight: 280 },
@@ -25,4 +26,5 @@ export const INGREDIENTS: Ingredient[] = [
   { name: "vanilla extract", cup_weight: 208 },
   { name: "water", cup_weight: 237 },
   { name: "yeast, active dry", cup_weight: 136 },
+  { name: "yeast, instant", cup_weight: 148 },
 ];
