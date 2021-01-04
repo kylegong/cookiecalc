@@ -30,7 +30,7 @@ export default function Calculator(props: CalculatorProps) {
   if (volStr != "" && ingredient != null) {
     const amount = { vol: rational.parse(volStr), unit, ingredient };
     addAmount = () => {
-      setAmounts([...amounts, amount]);
+      setAmounts([amount, ...amounts]);
       setVol("");
       setIngredient(undefined);
     };
