@@ -21,6 +21,7 @@ export const INGREDIENTS: Ingredient[] = [
   { name: "salt, table", cup_weight: 280 },
   { name: "sugar, confectioner's/powdered", cup_weight: 113 },
   { name: "sugar, granulated/white", cup_weight: 198 },
+  { name: "sugar, superfine/castor", cup_weight: 190 },
   { name: "vanilla extract", cup_weight: 208 },
   { name: "water", cup_weight: 237 },
   { name: "yeast, active dry", cup_weight: 136 },
