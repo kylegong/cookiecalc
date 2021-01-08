@@ -63,6 +63,7 @@ export default function Calculator(props: CalculatorProps) {
           id="amount"
           label="Amount"
           variant="outlined"
+          autoComplete="off"
           inputProps={{ style: { fontSize: "2em" } }}
           fullWidth={true}
           value={volStr}
