@@ -3,7 +3,7 @@ import {
   FormControlLabel,
   Radio,
   RadioGroup,
-  TextField,
+  TextField
 } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 import { useState } from "react";
@@ -125,9 +125,11 @@ function UnitSelect({
     );
   });
   return (
-    <RadioGroup row value={unit}>
-      {inputs}
-    </RadioGroup>
+    <div style={{height: "2.5rem"}}>
+      <RadioGroup row value={unit}>
+        {inputs}
+      </RadioGroup>
+    </div>
   );
 }
 
